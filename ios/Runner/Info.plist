@@ -2,6 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSCalendarsUsageDescription</key>
+	<string>Bookly needs calendar access to organize and display your upcoming events seamlessly.</string>
+	<key>NSCalendarsFullAccessUsageDescription</key>
+	<string>Full calendar access lets Bookly read and present all of your upcoming events along with their original details and colors.</string>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 	<key>CFBundleDevelopmentRegion</key>
