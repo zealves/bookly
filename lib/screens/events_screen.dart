@@ -2,18 +2,25 @@ import 'package:flutter/cupertino.dart';
 
 import '../models/event_section.dart';
 import '../services/calendar_service.dart';
+import '../services/photo_storage_service.dart';
 import '../widgets/empty_state.dart';
 import '../widgets/error_state.dart';
 import '../widgets/event_card.dart';
 import '../widgets/section_header.dart';
+import 'event_detail_screen.dart';
 import 'permission_screen.dart';
 
 /// Main screen. Coordinates permission, loading, error and ready states for
 /// the events grouped by day.
 class EventsScreen extends StatefulWidget {
-  const EventsScreen({super.key, required this.service});
+  const EventsScreen({
+    super.key,
+    required this.service,
+    required this.photoService,
+  });
 
   final CalendarService service;
+  final PhotoStorageService photoService;
 
   @override
   State<EventsScreen> createState() => _EventsScreenState();
@@ -137,14 +144,18 @@ class _EventsScreenState extends State<EventsScreen> {
     if (result == null || result.isEmpty) {
       return const EmptyState();
     }
-    return _EventList(result: result);
+    return _EventList(
+      result: result,
+      photoService: widget.photoService,
+    );
   }
 }
 
 class _EventList extends StatelessWidget {
-  const _EventList({required this.result});
+  const _EventList({required this.result, required this.photoService});
 
   final CalendarFetchResult result;
+  final PhotoStorageService photoService;
 
   @override
   Widget build(BuildContext context) {
@@ -166,6 +177,16 @@ class _EventList extends StatelessWidget {
                 event: event,
                 accentColor: result.calendarColors[event.calendarId] ??
                     fallback,
+                onTap: () => Navigator.of(context).push(
+                  CupertinoPageRoute(
+                    builder: (_) => EventDetailScreen(
+                      event: event,
+                      accentColor:
+                          result.calendarColors[event.calendarId] ?? fallback,
+                      photoService: photoService,
+                    ),
+                  ),
+                ),
               ),
           ],
         );

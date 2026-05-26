@@ -3,6 +3,7 @@ import 'package:intl/date_symbol_data_local.dart';
 
 import 'screens/events_screen.dart';
 import 'services/calendar_service.dart';
+import 'services/photo_storage_service.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,7 +24,10 @@ class BooklyApp extends StatelessWidget {
         primaryColor: CupertinoColors.systemBlue,
         scaffoldBackgroundColor: CupertinoColors.systemGroupedBackground,
       ),
-      home: EventsScreen(service: CalendarService()),
+      home: EventsScreen(
+        service: CalendarService(),
+        photoService: PhotoStorageService(),
+      ),
     );
   }
 }

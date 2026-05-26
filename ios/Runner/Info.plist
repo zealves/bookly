@@ -6,6 +6,8 @@
 	<string>Bookly needs calendar access to organize and display your upcoming events seamlessly.</string>
 	<key>NSCalendarsFullAccessUsageDescription</key>
 	<string>Full calendar access lets Bookly read and present all of your upcoming events along with their original details and colors.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Bookly needs access to your photo library to attach pictures to your events.</string>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 	<key>CFBundleDevelopmentRegion</key>

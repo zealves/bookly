@@ -1,6 +1,7 @@
 import 'package:device_calendar/device_calendar.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:intl/intl.dart';
+
+import '../utils/event_formatting.dart';
 
 /// Minimalist event card with a colored side bar matching the source calendar.
 class EventCard extends StatelessWidget {
@@ -8,10 +9,12 @@ class EventCard extends StatelessWidget {
     super.key,
     required this.event,
     required this.accentColor,
+    this.onTap,
   });
 
   final Event event;
   final Color accentColor;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +29,7 @@ class EventCard extends StatelessWidget {
     final subtitleColor =
         CupertinoColors.secondaryLabel.resolveFrom(context);
 
-    return Container(
+    final card = Container(
       margin: const EdgeInsets.only(bottom: 10),
       decoration: BoxDecoration(
         color: cardBg,
@@ -57,9 +60,7 @@ class EventCard extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      (event.title?.trim().isNotEmpty ?? false)
-                          ? event.title!
-                          : 'Untitled',
+                      formatEventTitle(event),
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
@@ -71,7 +72,7 @@ class EventCard extends StatelessWidget {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      _formatTimeRange(event),
+                      formatEventTimeRange(event),
                       style: TextStyle(
                         fontSize: 14,
                         color: subtitleColor,
@@ -86,15 +87,12 @@ class EventCard extends StatelessWidget {
         ),
       ),
     );
-  }
 
-  String _formatTimeRange(Event event) {
-    if (event.allDay ?? false) return 'All day';
-    final fmt = DateFormat.jm('en_US');
-    final start = event.start;
-    final end = event.end;
-    if (start == null) return '—';
-    if (end == null) return fmt.format(start.toLocal());
-    return '${fmt.format(start.toLocal())} – ${fmt.format(end.toLocal())}';
+    if (onTap == null) return card;
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: onTap,
+      child: card,
+    );
   }
 }
